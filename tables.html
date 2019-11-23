@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <title>Star Wars - Express</title>
+      <!-- Latest compiled and minified CSS & JS -->
+      <link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      />
+      <link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      />
+      <script src="https://code.jquery.com/jquery.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+      <div class="jumbotron text-center">
+        <a href="/">
+          <button class="btn btn-danger btn-lg">Home</button>
+        </a>
+        <a href="/reservations">
+          <button id="make-reservation" class="btn btn-danger btn-lg">
+            Make reservations
+          </button>
+        </a>
+      </div>
+
+      <h2>
+        ADD reservation below here
+      </h2>
+      <div class="js-rsvps"></div>
+      <h2>
+        ADD waitlist below here
+      </h2>
+      <div class="js-waitlists"></div>
+    </body>
+    <script>
+      $.get("/api/reservations").then(rsvp => {
+        console.log("rsvp", rsvp);
+
+        let alltableDiv = "";
+        rsvp.forEach(reservation => {
+          let tableDiv = `
+          <div class="card">
+          <div>
+            Name: ${reservation.customerName}
+          </div>
+          <div>
+            Email: ${reservation.customerEmail}
+          </div>
+          <div>
+            phone: ${reservation.customerPhone}
+          </div>
+          <div>
+            id: ${reservation.customerID}
+          </div>
+        </div>`;
+          alltableDiv += tableDiv;
+        });
+        $(".js-rsvps").html(alltableDiv);
+      });
+
+      $.get("/api/table").then(waitlist => {
+        console.log("waitlist", waitlist);
+
+        let alltableDiv = "";
+        waitlist.forEach(reservation => {
+          let tableDiv = `
+        <div class="card">
+          <div>
+            Name: ${reservation.customerName}
+          </div>
+          <div>
+            Email: ${reservation.customerEmail}
+          </div>
+          <div>
+            phone: ${reservation.customerPhone}
+          </div>
+          <div>
+            id: ${reservation.customerID}
+          </div>
+        </div>`;
+          alltableDiv += tableDiv;
+        });
+        $(".js-waitlists").html(alltableDiv);
+      });
+    </script>
+  </html>
+</html>
